@@ -1,1 +1,1 @@
-![image](https://github.com/HristoYonkov/MUI-Playground/assets/50380455/a65fb652-0462-4916-b9ee-5902f79c9a1a)
+![image](https://github.com/HristoYonkov/MUI-Playground/assets/50380455/f0a8eded-e5d8-4d39-9147-c74a09d64f86)
