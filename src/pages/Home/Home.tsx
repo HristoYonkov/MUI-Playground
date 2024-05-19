@@ -58,11 +58,20 @@ export default function ResponsiveDrawer() {
         }
     };
 
+    const hrefMap: { [key: number]: string } = {
+        0: '/users',
+        1: '/zones',
+        2: '/providers',
+        3: '/roles',
+        4: '/goods-types',
+        5: '/type-difference'
+    };
+
     const drawer = (
         <div>
-            <Toolbar sx={{ gap: '16px', padding: '0 16px 0 16px', height: '73.22px' }} disableGutters>
+            <Toolbar component={'a'} href='/' sx={{ gap: '16px', padding: '0 16px 0 16px', height: '73.22px', textDecoration: 'none' }} disableGutters>
                 <img style={{ height: '40px', width: '40px', borderRadius: '50%' }} src={logoBG} alt='logo' />
-                <Typography variant='h6' fontWeight={600}>
+                <Typography sx={{ color: 'black' }} variant='h6' fontWeight={600}>
                     Intercars Bulgaria
                 </Typography>
             </Toolbar>
@@ -82,7 +91,7 @@ export default function ResponsiveDrawer() {
                             },
                         }}
                     >
-                        <ListItemButton>
+                        <ListItemButton LinkComponent={'a'} href={hrefMap[index] || ''}>
                             <ListItemIcon>
                                 {index === 0 ? <PeopleAltOutlinedIcon sx={{ color: 'black' }} /> : null}
                                 {index === 1 ? <AccountTreeOutlinedIcon sx={{ color: 'black' }} /> : null}
@@ -166,7 +175,6 @@ export default function ResponsiveDrawer() {
                             }}
                         >
                             <MenuItem onClick={handleClose}>Profile</MenuItem>
-                            <MenuItem onClick={handleClose}>My account</MenuItem>
                             <MenuItem onClick={handleClose}>Logout</MenuItem>
                         </Menu>
                     </div>
@@ -219,13 +227,13 @@ export default function ResponsiveDrawer() {
                     flexGrow: 1,
                     p: 3,
                     width: { sm: `calc(100% - ${drawerWidth}px)`, padding: '24px 0 0 0' },
+                    paddingTop: '50px'
                 }}
             >
                 <Toolbar
                     sx={{
                         display: 'flex',
                         justifyContent: 'space-between',
-                        marginTop: '30px',
                     }}
                 >
                     <Box sx={{ textAlign: 'left', marginTop: '15px' }}>
@@ -237,7 +245,7 @@ export default function ResponsiveDrawer() {
                         </Typography>
                     </Box>
                     <Button variant='contained' sx={{ backgroundColor: 'rgb(218 31 57)' }}>
-                        <AddIcon sx={{ fontSize: '25px' }} />
+                        <AddIcon />
                         <Box width={'10px'}></Box>
                         ДЕЙСТВИЕ
                     </Button>
