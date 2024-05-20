@@ -31,9 +31,8 @@ export default function MainPageToolbar({ title, subTitle, buttonTitle, buttonFn
                 sx={{ backgroundColor: 'rgb(218 31 57)', lineHeight: '15px',
                 textAlign: 'left' }}
                 onClick={() => buttonFn()}
+                startIcon={<AddIcon />}
             >
-                <AddIcon />
-                <Box width={'10px'}></Box>
                 {buttonTitle}
             </Button>
         </Toolbar>
