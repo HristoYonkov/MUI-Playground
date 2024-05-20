@@ -1,9 +1,11 @@
+import React from 'react';
+
 import { Typography } from '@mui/material';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import MainPageToolbar from '../../components/MainPageToolbar/MainPageToolbar';
 
 
-export default function Home() {
+export default function Home(): React.ReactElement {
 
     return (
         <MainLayout>
@@ -13,7 +15,7 @@ export default function Home() {
                 buttonTitle={'ДЕЙСТВИЕ'}
             />
 
-            <Typography paragraph>PAGES..</Typography>
+            <Typography paragraph>Home..</Typography>
         </MainLayout>
     );
 }
