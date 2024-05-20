@@ -10,8 +10,8 @@ export default function Home(): React.ReactElement {
     return (
         <MainLayout>
             <MainPageToolbar
-                title={'Потребители'}
-                subTitle={'Менажиране на потребители'}
+                title={'Title'}
+                subTitle={'Subtitle'}
                 buttonTitle={'ДЕЙСТВИЕ'}
             />
 
