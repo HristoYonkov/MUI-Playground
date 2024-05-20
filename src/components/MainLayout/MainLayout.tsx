@@ -6,9 +6,6 @@ import CssBaseline from '@mui/material/CssBaseline';
 import Divider from '@mui/material/Divider';
 import Drawer from '@mui/material/Drawer';
 import IconButton from '@mui/material/IconButton';
-import Button from '@mui/material/Button';
-import Menu from '@mui/material/Menu';
-import MenuItem from '@mui/material/MenuItem';
 import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
@@ -20,12 +17,12 @@ import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined
 import ManageAccountsOutlinedIcon from '@mui/icons-material/ManageAccountsOutlined';
 import Inventory2OutlinedIcon from '@mui/icons-material/Inventory2Outlined';
 import DifferenceOutlinedIcon from '@mui/icons-material/DifferenceOutlined';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import MenuIcon from '@mui/icons-material/Menu';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 
 import logoBG from '../../images/logo_bg.png';
+import MainPageDropdown from '../MainPageDropdown/MainPageDropdown';
 
 const drawerWidth = 304;
 
@@ -37,15 +34,7 @@ interface MainLayoutProps {
 export default function MainLayout({ children }: MainLayoutProps): React.ReactElement {
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const [isClosing, setIsClosing] = React.useState(false);
-    const [anchorEl, setAnchorEl] = React.useState(null);
-
-    const open = Boolean(anchorEl);
-    const handleClick = (event: any) => {
-        setAnchorEl(event.currentTarget);
-    };
-    const handleClose = () => {
-        setAnchorEl(null);
-    };
+    
 
     const handleDrawerClose = () => {
         setIsClosing(true);
@@ -135,53 +124,7 @@ export default function MainLayout({ children }: MainLayoutProps): React.ReactEl
                         <MenuIcon sx={{ color: 'black' }} />
                     </IconButton>
                     <Box></Box>
-                    <div>
-                        <Button
-                            id='demo-positioned-button'
-                            aria-controls={open ? 'demo-positioned-menu' : undefined}
-                            aria-haspopup='true'
-                            aria-expanded={open ? 'true' : undefined}
-                            onClick={handleClick}
-                            sx={{ color: 'black', textTransform: 'none' }}
-                        >
-                            <Box
-                                sx={{
-                                    marginRight: '10px',
-                                    boxShadow: '0px 0px 8px 0px #00000040',
-                                }}
-                            >
-                                <Box sx={{ width: '30px', height: '6px' }} />
-                                <Box sx={{ width: '30px', height: '6px', background: 'green' }} />
-                                <Box sx={{ width: '30px', height: '6px', background: 'red' }} />
-                            </Box>
-                            {'Kristian Malamov'}
-                            <KeyboardArrowDownIcon
-                                sx={{
-                                    fontSize: '30px',
-                                    marginBottom: '3px',
-                                    textAlign: 'center',
-                                }}
-                            />
-                        </Button>
-                        <Menu
-                            id='demo-positioned-menu'
-                            aria-labelledby='demo-positioned-button'
-                            anchorEl={anchorEl}
-                            open={open}
-                            onClose={handleClose}
-                            anchorOrigin={{
-                                vertical: 'top',
-                                horizontal: 'center',
-                            }}
-                            transformOrigin={{
-                                vertical: 'top',
-                                horizontal: 'left',
-                            }}
-                        >
-                            <MenuItem onClick={handleClose}>Profile</MenuItem>
-                            <MenuItem onClick={handleClose}>Logout</MenuItem>
-                        </Menu>
-                    </div>
+                    <MainPageDropdown></MainPageDropdown>
                 </Toolbar>
             </AppBar>
             <Box
