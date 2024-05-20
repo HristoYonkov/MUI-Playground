@@ -7,10 +7,11 @@ interface MainPageToolbarProps {
     title: string,
     subTitle: string,
     buttonTitle: string,
+    buttonFn: Function
 }
 
-export default function MainPageToolbar({ title, subTitle, buttonTitle }: MainPageToolbarProps): React.ReactElement {
-
+export default function MainPageToolbar({ title, subTitle, buttonTitle, buttonFn }: MainPageToolbarProps): React.ReactElement {
+    
     return (
         <Toolbar
             sx={{
@@ -26,7 +27,11 @@ export default function MainPageToolbar({ title, subTitle, buttonTitle }: MainPa
                     {subTitle}
                 </Typography>
             </Box>
-            <Button variant='contained' sx={{ backgroundColor: 'rgb(218 31 57)' }}>
+            <Button variant='contained'
+                sx={{ backgroundColor: 'rgb(218 31 57)', lineHeight: '15px',
+                textAlign: 'left' }}
+                onClick={() => buttonFn()}
+            >
                 <AddIcon />
                 <Box width={'10px'}></Box>
                 {buttonTitle}
