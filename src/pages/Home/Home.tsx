@@ -13,6 +13,7 @@ export default function Home(): React.ReactElement {
                 title={'Title'}
                 subTitle={'Subtitle'}
                 buttonTitle={'ДЕЙСТВИЕ'}
+                buttonFn={() => {}}
             />
 
             <Typography paragraph>Home..</Typography>
