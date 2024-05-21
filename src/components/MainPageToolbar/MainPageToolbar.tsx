@@ -1,7 +1,8 @@
 import React from "react";
 
-import { Box, Button, Toolbar, Typography } from "@mui/material";
+import { Box, Toolbar, Typography } from "@mui/material";
 import AddIcon from '@mui/icons-material/Add';
+import MyButton from "../partials/MyButton/MyButton";
 
 interface MainPageToolbarProps {
     title: string,
@@ -27,14 +28,7 @@ export default function MainPageToolbar({ title, subTitle, buttonTitle, buttonFn
                     {subTitle}
                 </Typography>
             </Box>
-            <Button variant='contained'
-                sx={{ backgroundColor: 'rgb(218 31 57)', lineHeight: '15px',
-                textAlign: 'left' }}
-                onClick={() => buttonFn()}
-                startIcon={<AddIcon />}
-            >
-                {buttonTitle}
-            </Button>
+            <MyButton title={buttonTitle} buttonFn={buttonFn} icon={<AddIcon />} />
         </Toolbar>
     )
 }
