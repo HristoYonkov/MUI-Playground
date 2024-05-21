@@ -5,6 +5,7 @@ import MainLayout from '../../components/MainLayout/MainLayout';
 import MainPageToolbar from '../../components/MainPageToolbar/MainPageToolbar';
 import MyModal from '../../components/MyModal/MyModal';
 import useMyModal from '../../hooks/useMyModal';
+import NewUserForm from '../../components/partials/NewUserForm/NewUserForm';
 
 
 export default function Users(): React.ReactElement {
@@ -18,7 +19,9 @@ export default function Users(): React.ReactElement {
                 buttonTitle={'нов потребител'}
                 buttonFn={() => handleOpen()}
             />
-            <MyModal open={open} handleClose={handleClose} />
+            <MyModal open={open} handleClose={handleClose}>
+                <NewUserForm></NewUserForm>
+            </MyModal>
             <Typography paragraph>Users..</Typography>
         </MainLayout>
     );
