@@ -3,15 +3,15 @@ import Modal from '@mui/material/Modal';
 
 const style = {
   position: 'absolute' as 'absolute',
-  top: '50%',
+  top: '40%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: 722,
-  height: 304,
+  display: 'flex',
+  maxWidth: 722,
   bgcolor: 'background.paper',
   borderRadius: '24px',
   boxShadow: 24,
-  p: 4,
+  p: 3,
 };
 
 interface MainPageToolbarProps {
