@@ -61,8 +61,7 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ handleClose }) => {
                     </Select>
                 </FormControl>
             </Box>
-            <Box sx={{display: 'flex', justifyContent: 'space-between'}}>
-                <div></div>
+            <Box sx={{display: 'flex', justifyContent: 'end'}}>
                 <MyButton title='Създаване' icon={<AddIcon />} buttonFn={() => {}} />
             </Box>
         </Box>
