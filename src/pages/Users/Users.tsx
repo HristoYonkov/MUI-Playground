@@ -20,7 +20,7 @@ export default function Users(): React.ReactElement {
                 buttonFn={() => handleOpen()}
             />
             <MyModal open={open} handleClose={handleClose}>
-                <NewUserForm></NewUserForm>
+                <NewUserForm handleClose={handleClose}></NewUserForm>
             </MyModal>
             <Typography paragraph>Users..</Typography>
         </MainLayout>
