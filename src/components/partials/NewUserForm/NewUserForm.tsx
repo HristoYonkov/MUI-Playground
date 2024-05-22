@@ -9,8 +9,6 @@ import AddIcon from '@mui/icons-material/Add';
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined';
 
 interface NewUserFormProps {
-    // title: string;
-    // icon?: React.ReactNode;
     handleClose: Function;
 }
 
