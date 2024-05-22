@@ -21,12 +21,10 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ handleClose }) => {
     return (
         <Box
             component='form'
-            sx={
-                {
-                    display: 'flex',
-                    flexDirection: 'column'
-                }
-            }
+            sx={{
+                display: 'flex',
+                flexDirection: 'column',
+            }}
             noValidate
             autoComplete='off'
         >
@@ -38,13 +36,17 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ handleClose }) => {
                     <CancelOutlinedIcon sx={{ color: 'black', width: '20px', height: '20px' }} />
                 </Button>
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: {lg: 'row', xs: 'column'}, gap: '18px', marginBottom: '30px' }}>
-                <TextField id='outlined-basic' label='Име' variant='outlined' sx={{width: '328px'}} />
-                <TextField id='outlined-basic' label='Имейл' variant='outlined' sx={{width: '328px'}} />
+            <Box
+                sx={{ display: 'flex', flexDirection: { lg: 'row', xs: 'column' }, gap: '18px', marginBottom: '30px' }}
+            >
+                <TextField id='outlined-basic' label='Име' variant='outlined' sx={{ width: '328px' }} />
+                <TextField id='outlined-basic' label='Имейл' variant='outlined' sx={{ width: '328px' }} />
             </Box>
-            <Box sx={{ display: 'flex', flexDirection: {lg: 'row', xs: 'column'}, gap: '18px', marginBottom: '30px' }}>
-                <TextField id='outlined-basic' label='Телефонен Номер' variant='outlined' sx={{width: '328px'}} />
-                <FormControl sx={{width: '328px'}}>
+            <Box
+                sx={{ display: 'flex', flexDirection: { lg: 'row', xs: 'column' }, gap: '18px', marginBottom: '30px' }}
+            >
+                <TextField id='outlined-basic' label='Телефонен Номер' variant='outlined' sx={{ width: '328px' }} />
+                <FormControl sx={{ width: '328px' }}>
                     <InputLabel id='demo-simple-select-label'>Age</InputLabel>
                     <Select
                         labelId='demo-simple-select-label'
@@ -59,7 +61,7 @@ const NewUserForm: React.FC<NewUserFormProps> = ({ handleClose }) => {
                     </Select>
                 </FormControl>
             </Box>
-            <Box sx={{display: 'flex', justifyContent: 'end'}}>
+            <Box sx={{ display: 'flex', justifyContent: 'end' }}>
                 <MyButton title='Създаване' icon={<AddIcon />} buttonFn={() => {}} />
             </Box>
         </Box>
