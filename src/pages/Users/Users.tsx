@@ -6,6 +6,7 @@ import MainPageToolbar from '../../components/MainPageToolbar/MainPageToolbar';
 import MyModal from '../../components/MyModal/MyModal';
 import useMyModal from '../../hooks/useMyModal';
 import NewUserForm from '../../components/partials/NewUserForm/NewUserForm';
+import DataTable from '../../components/DataTable/DataTable';
 
 
 export default function Users(): React.ReactElement {
@@ -22,7 +23,8 @@ export default function Users(): React.ReactElement {
             <MyModal open={open} handleClose={handleClose}>
                 <NewUserForm handleClose={handleClose}></NewUserForm>
             </MyModal>
-            <Typography paragraph>Users..</Typography>
+            
+            <DataTable />
         </MainLayout>
     );
 }
