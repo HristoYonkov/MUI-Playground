@@ -36,7 +36,7 @@ const rows = [
 
 const DataTable: React.FC = ({ }) => {
   return (
-    <div style={{height: 500, width: '100%', background: 'white'}}>
+    <div style={{height: 650, width: '100%', background: 'white'}}>
       <div style={{ height: 400, width: '100%' }}>
         <Box>
           Search - Filter
