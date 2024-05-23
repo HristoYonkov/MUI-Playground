@@ -1,5 +1,6 @@
 import * as React from 'react';
 import { DataGrid, GridColDef } from '@mui/x-data-grid';
+import { Box } from '@mui/material';
 
 const columns: GridColDef[] = [
   { field: 'id', headerName: 'ID', width: 70 },
@@ -35,18 +36,28 @@ const rows = [
 
 const DataTable: React.FC = ({ }) => {
   return (
-    <div style={{ height: 600, width: '100%', background: 'white' }}>
-      <DataGrid
-        rows={rows}
-        columns={columns}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 5 },
-          },
-        }}
-        pageSizeOptions={[5, 10]}
-        checkboxSelection
-      />
+    <div style={{height: 500, width: '100%', background: 'white'}}>
+      <div style={{ height: 400, width: '100%' }}>
+        <Box>
+          Search - Filter
+        </Box>
+        <DataGrid
+          rows={rows}
+          columns={columns}
+          initialState={{
+            pagination: {
+              paginationModel: { page: 0, pageSize: 5 },
+            },
+          }}
+          pageSizeOptions={[5, 10]}
+          checkboxSelection
+          sx={{
+            '& .MuiDataGrid-columnHeaders': {
+              backgroundColor: 'red', // Change this color to your desired background color
+            },
+          }}
+        />
+      </div>
     </div>
   );
 }
