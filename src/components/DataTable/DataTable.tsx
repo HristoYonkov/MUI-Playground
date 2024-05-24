@@ -42,7 +42,11 @@ function createData(id: number, name: string, email: string, role: string, creat
 const rows = [
     createData(1, 'Ico', 'ico@abv.bg', 'admin', '2024-05-24'),
     createData(2, 'Petkan', 'petkan@abv.bg', 'courier', '2024-05-24'),
-    createData(3, 'Dragan', 'dragan@abv.bg', 'courier', '2024-05-24'),
+    createData(3, 'Milko', 'dragan@abv.bg', 'courier', '2024-05-24'),
+    createData(4, 'Dragan', 'dragan@abv.bg', 'courier', '2024-05-24'),
+    createData(5, 'Ivo', 'ivo@abv.bg', 'courier', '2024-05-24'),
+    createData(6, 'Pavel', 'ipavel@abv.bg', 'courier', '2024-05-24'),
+    createData(7, 'Metil', 'metil@abv.bg', 'courier', '2024-05-24'),
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
