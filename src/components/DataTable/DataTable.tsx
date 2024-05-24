@@ -17,7 +17,9 @@ import Tooltip from '@mui/material/Tooltip';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
+import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
+import { TextField } from '@mui/material';
 
 interface Data {
     id: number;
@@ -172,9 +174,23 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             sx={{
                 pl: { sm: 2 },
                 pr: { xs: 1, sm: 1 },
+                pt: { xs: 2, sm: 2 },
+                pb: { xs: 2, sm: 2 },
             }}
         >
-            
+            <Box sx={{ position: 'relative' }}>
+                <SearchIcon sx={{ position: 'absolute', top: '15px', left: '5px' }} />
+
+                <TextField id="outlined-basic" label="Търсене" variant="outlined"
+                    sx={{ width: '328px' }} InputProps={{ sx: { '& input': { paddingLeft: '30px' } } }}
+                    InputLabelProps={{
+                        sx: {
+                            paddingLeft: '20px', '&.Mui-focused': {
+                                paddingLeft: '0px'
+                            },
+                        }
+                    }} />
+            </Box>
         </Toolbar>
     );
 }
