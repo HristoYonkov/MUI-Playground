@@ -19,7 +19,7 @@ import Switch from '@mui/material/Switch';
 import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
-import { TextField } from '@mui/material';
+import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
 
 interface Data {
     id: number;
@@ -139,17 +139,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     return (
         <TableHead>
             <TableRow sx={{ backgroundColor: '#F6F6F6' }}>
-                <TableCell padding='checkbox'>
-                    <Checkbox
-                        color='primary'
-                        indeterminate={numSelected > 0 && numSelected < rowCount}
-                        checked={rowCount > 0 && numSelected === rowCount}
-                        onChange={onSelectAllClick}
-                        inputProps={{
-                            'aria-label': 'select all desserts',
-                        }}
-                    />
-                </TableCell>
                 {headCells.map((headCell) => (
                     <TableCell
                         key={headCell.id}
@@ -157,7 +146,7 @@ function EnhancedTableHead(props: EnhancedTableProps) {
                         padding={'normal'}
                         sortDirection={orderBy === headCell.id ? order : false}
                     >
-                        {headCell.label}
+                        <Typography fontWeight={600}>{headCell.label}</Typography>
                     </TableCell>
                 ))}
                 <TableCell></TableCell>
@@ -172,10 +161,17 @@ interface EnhancedTableToolbarProps {
 
 function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
     const { numSelected } = props;
+    const [role, setRole] = React.useState('');
+
+    const handleChange = (event: SelectChangeEvent) => {
+        setRole(event.target.value as string);
+    };
 
     return (
         <Toolbar
             sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
                 pl: { sm: 2 },
                 pr: { xs: 1, sm: 1 },
                 pt: { xs: 2, sm: 2 },
@@ -184,16 +180,36 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
         >
             <Box sx={{ position: 'relative' }}>
                 <SearchIcon sx={{ position: 'absolute', top: '15px', left: '5px' }} />
-
-                <TextField id="outlined-basic" label="Търсене" variant="outlined"
-                    sx={{ width: '328px' }} InputProps={{ sx: { '& input': { paddingLeft: '30px' } } }}
+                <TextField
+                    id='outlined-basic'
+                    label='Търсене'
+                    variant='outlined'
+                    sx={{ width: '328px' }}
+                    InputProps={{ sx: { '& input': { paddingLeft: '30px' } } }}
                     InputLabelProps={{
                         sx: {
-                            paddingLeft: '20px', '&.Mui-focused': {
-                                paddingLeft: '0px'
+                            paddingLeft: '20px', color: 'black',
+                            '&.Mui-focused': {
+                                paddingLeft: '0px',
                             },
-                        }
-                    }} />
+                        },
+                    }}
+                />
+            </Box>
+            <Box width={'199px'}>
+                <FormControl fullWidth>
+                    <InputLabel sx={{ color: 'black',}} id='demo-simple-select-label'>Филтър по Роля</InputLabel>
+                    <Select
+                        labelId='demo-simple-select-label'
+                        id='demo-simple-select'
+                        value={role}
+                        label='Филтър по Роля'
+                        onChange={handleChange}
+                    >
+                        <MenuItem value={10}>Admin</MenuItem>
+                        <MenuItem value={20}>Courier</MenuItem>
+                    </Select>
+                </FormControl>
             </Box>
         </Toolbar>
     );
@@ -263,8 +279,8 @@ const DataTable: React.FC = () => {
     );
 
     return (
-        <Box sx={{ width: '100%' }}>
-            <Paper sx={{ width: '100%', mb: 2 }}>
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+            <Paper sx={{ width: '98%', mb: 2 }}>
                 <EnhancedTableToolbar numSelected={selected.length} />
                 <TableContainer>
                     <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={dense ? 'small' : 'medium'}>
@@ -292,15 +308,6 @@ const DataTable: React.FC = () => {
                                         selected={isItemSelected}
                                         sx={{ cursor: 'pointer' }}
                                     >
-                                        <TableCell padding='checkbox'>
-                                            <Checkbox
-                                                color='primary'
-                                                checked={isItemSelected}
-                                                inputProps={{
-                                                    'aria-labelledby': labelId,
-                                                }}
-                                            />
-                                        </TableCell>
                                         <TableCell component='th' id={labelId} scope='row' padding='normal'>
                                             {row.name}
                                         </TableCell>
@@ -333,7 +340,6 @@ const DataTable: React.FC = () => {
                     onRowsPerPageChange={handleChangeRowsPerPage}
                 />
             </Paper>
-            <FormControlLabel control={<Switch checked={dense} onChange={handleChangeDense} />} label='Dense padding' />
         </Box>
     );
 };
