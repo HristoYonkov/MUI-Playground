@@ -47,6 +47,19 @@ const rows = [
     createData(5, 'Ivo', 'ivo@abv.bg', 'courier', '2024-05-24'),
     createData(6, 'Pavel', 'ipavel@abv.bg', 'courier', '2024-05-24'),
     createData(7, 'Metil', 'metil@abv.bg', 'courier', '2024-05-24'),
+    createData(8, 'Petkan', 'petkan@abv.bg', 'courier', '2024-05-24'),
+    createData(9, 'Milko', 'dragan@abv.bg', 'courier', '2024-05-24'),
+    createData(10, 'Dragan', 'dragan@abv.bg', 'courier', '2024-05-24'),
+    createData(11, 'Ivo', 'ivo@abv.bg', 'courier', '2024-05-24'),
+    createData(12, 'Pavel', 'ipavel@abv.bg', 'courier', '2024-05-24'),
+    createData(13, 'Metil', 'metil@abv.bg', 'courier', '2024-05-24'),
+    createData(14, 'Petkan', 'petkan@abv.bg', 'courier', '2024-05-24'),
+    createData(15, 'Milko', 'dragan@abv.bg', 'courier', '2024-05-24'),
+    createData(16, 'Dragan', 'dragan@abv.bg', 'courier', '2024-05-24'),
+    createData(17, 'Ivo', 'ivo@abv.bg', 'courier', '2024-05-24'),
+    createData(18, 'Pavel', 'ipavel@abv.bg', 'courier', '2024-05-24'),
+    createData(19, 'Metil', 'metil@abv.bg', 'courier', '2024-05-24'),
+    createData(20, 'Metil', 'metil@abv.bg', 'courier', '2024-05-24'),
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -279,7 +292,7 @@ const DataTable: React.FC = () => {
     );
 
     return (
-        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ width: '100%' , display: 'flex', justifyContent: 'center' }}>
             <Paper sx={{ width: '98%', mb: 2 }}>
                 <EnhancedTableToolbar numSelected={selected.length} />
                 <TableContainer>
