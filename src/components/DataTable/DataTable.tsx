@@ -11,6 +11,7 @@ import TableRow from '@mui/material/TableRow';
 import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import Paper from '@mui/material/Paper';
+import MoreHorizIcon from '@mui/icons-material/MoreHoriz';
 import Checkbox from '@mui/material/Checkbox';
 import IconButton from '@mui/material/IconButton';
 import Tooltip from '@mui/material/Tooltip';
@@ -65,7 +66,6 @@ const rows = [
     createData(23, 'Ico', 'ico@abv.bg', 'admin', '2024-05-24'),
     createData(24, 'Ico', 'ico@abv.bg', 'courier', '2024-05-24'),
     createData(25, 'Ico', 'ico@abv.bg', 'courier', '2024-05-24'),
-
 ];
 
 function descendingComparator<T>(a: T, b: T, orderBy: keyof T) {
@@ -207,7 +207,8 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
                     InputProps={{ sx: { '& input': { paddingLeft: '30px' } } }}
                     InputLabelProps={{
                         sx: {
-                            paddingLeft: '20px', color: 'black',
+                            paddingLeft: '20px',
+                            color: 'black',
                             '&.Mui-focused': {
                                 paddingLeft: '0px',
                             },
@@ -217,7 +218,9 @@ function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
             </Box>
             <Box width={'199px'}>
                 <FormControl fullWidth>
-                    <InputLabel sx={{ color: 'black',}} id='demo-simple-select-label'>Филтър по Роля</InputLabel>
+                    <InputLabel sx={{ color: 'black' }} id='demo-simple-select-label'>
+                        Филтър по Роля
+                    </InputLabel>
                     <Select
                         labelId='demo-simple-select-label'
                         id='demo-simple-select'
@@ -286,8 +289,6 @@ const DataTable: React.FC = () => {
         setDense(event.target.checked);
     };
 
-    const isSelected = (id: number) => selected.indexOf(id) !== -1;
-
     // Avoid a layout jump when reaching the last page with empty rows.
     const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
@@ -298,7 +299,7 @@ const DataTable: React.FC = () => {
     );
 
     return (
-        <Box sx={{ width: '100%' , display: 'flex', justifyContent: 'center' }}>
+        <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
             <Paper sx={{ width: '98%', mb: 2 }}>
                 <EnhancedTableToolbar numSelected={selected.length} />
                 <TableContainer>
@@ -313,7 +314,6 @@ const DataTable: React.FC = () => {
                         />
                         <TableBody>
                             {visibleRows.map((row, index) => {
-                                const isItemSelected = isSelected(row.id);
                                 const labelId = `enhanced-table-checkbox-${index}`;
 
                                 return (
@@ -321,11 +321,8 @@ const DataTable: React.FC = () => {
                                         hover
                                         onClick={(event) => handleClick(event, row.id)}
                                         role='checkbox'
-                                        aria-checked={isItemSelected}
                                         tabIndex={-1}
                                         key={row.id}
-                                        selected={isItemSelected}
-                                        sx={{ cursor: 'pointer' }}
                                     >
                                         <TableCell component='th' id={labelId} scope='row' padding='normal'>
                                             {row.name}
@@ -333,7 +330,9 @@ const DataTable: React.FC = () => {
                                         <TableCell align='left'>{row.email}</TableCell>
                                         <TableCell align='left'>{row.role}</TableCell>
                                         <TableCell align='left'>{row.createDate}</TableCell>
-                                        <TableCell align='left'>{'menu'}</TableCell>
+                                        <TableCell align='left' sx={{ cursor: 'pointer' }}>
+                                            <MoreHorizIcon />
+                                        </TableCell>
                                     </TableRow>
                                 );
                             })}
