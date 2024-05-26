@@ -23,7 +23,10 @@ export default function Users(): React.ReactElement {
                 <NewUserForm handleClose={handleClose}></NewUserForm>
             </MyModal>
             
-            <DataTable />
+            <DataTable
+            >
+                
+            </DataTable>
         </MainLayout>
     );
 }
