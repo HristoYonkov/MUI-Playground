@@ -21,6 +21,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import SearchIcon from '@mui/icons-material/Search';
 import FilterListIcon from '@mui/icons-material/FilterList';
 import { FormControl, InputLabel, MenuItem, Select, SelectChangeEvent, TextField } from '@mui/material';
+import TableToolbar from './TableToolbar';
 
 interface Data {
     id: number;
@@ -174,69 +175,6 @@ function EnhancedTableHead(props: EnhancedTableProps) {
     );
 }
 
-interface EnhancedTableToolbarProps {
-    numSelected: number;
-}
-
-function EnhancedTableToolbar(props: EnhancedTableToolbarProps) {
-    const { numSelected } = props;
-    const [role, setRole] = React.useState('');
-
-    const handleChange = (event: SelectChangeEvent) => {
-        setRole(event.target.value as string);
-    };
-
-    return (
-        <Toolbar
-            sx={{
-                display: 'flex',
-                justifyContent: 'space-between',
-                pl: { sm: 2 },
-                pr: { xs: 1, sm: 1 },
-                pt: { xs: 2, sm: 2 },
-                pb: { xs: 2, sm: 2 },
-            }}
-        >
-            <Box sx={{ position: 'relative' }}>
-                <SearchIcon sx={{ position: 'absolute', top: '15px', left: '5px' }} />
-                <TextField
-                    id='outlined-basic'
-                    label='Търсене'
-                    variant='outlined'
-                    sx={{ width: '328px' }}
-                    InputProps={{ sx: { '& input': { paddingLeft: '30px' } } }}
-                    InputLabelProps={{
-                        sx: {
-                            paddingLeft: '20px',
-                            color: 'black',
-                            '&.Mui-focused': {
-                                paddingLeft: '0px',
-                            },
-                        },
-                    }}
-                />
-            </Box>
-            <Box width={'199px'}>
-                <FormControl fullWidth>
-                    <InputLabel sx={{ color: 'black' }} id='demo-simple-select-label'>
-                        Филтър по Роля
-                    </InputLabel>
-                    <Select
-                        labelId='demo-simple-select-label'
-                        id='demo-simple-select'
-                        value={role}
-                        label='Филтър по Роля'
-                        onChange={handleChange}
-                    >
-                        <MenuItem value={10}>Admin</MenuItem>
-                        <MenuItem value={20}>Courier</MenuItem>
-                    </Select>
-                </FormControl>
-            </Box>
-        </Toolbar>
-    );
-}
-
 const DataTable: React.FC = () => {
     const [order, setOrder] = React.useState<Order>('asc');
     const [orderBy, setOrderBy] = React.useState<keyof Data>('name');
@@ -301,7 +239,7 @@ const DataTable: React.FC = () => {
     return (
         <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center' }}>
             <Paper sx={{ width: '98%', mb: 2 }}>
-                <EnhancedTableToolbar numSelected={selected.length} />
+                <TableToolbar numSelected={selected.length} />
                 <TableContainer>
                     <Table sx={{ minWidth: 750 }} aria-labelledby='tableTitle' size={dense ? 'small' : 'medium'}>
                         <EnhancedTableHead
