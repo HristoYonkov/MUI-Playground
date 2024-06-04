@@ -16,7 +16,8 @@ const hrefMap: { [key: number]: string } = {
     2: '/providers',
     3: '/roles',
     4: '/goods-types',
-    5: '/type-difference'
+    5: '/type-difference',
+    6: 'markers',
 };
 
 const CustomDrawer: React.FC = () => {
@@ -31,7 +32,7 @@ const CustomDrawer: React.FC = () => {
             </Toolbar>
             <Divider />
             <List>
-                {['Потребители', 'Зони', 'Доставчици', 'Роли', 'Видове Стока', 'Тип Разлика'].map((text, index) => (
+                {['Потребители', 'Зони', 'Доставчици', 'Роли', 'Видове Стока', 'Тип Разлика', 'Маркери'].map((text, index) => (
                     <ListItem
                         key={text}
                         disablePadding
@@ -53,6 +54,7 @@ const CustomDrawer: React.FC = () => {
                                 {index === 3 ? <ManageAccountsOutlinedIcon sx={{ color: 'black' }} /> : null}
                                 {index === 4 ? <Inventory2OutlinedIcon sx={{ color: 'black' }} /> : null}
                                 {index === 5 ? <DifferenceOutlinedIcon sx={{ color: 'black' }} /> : null}
+                                {index === 6 ? <DifferenceOutlinedIcon sx={{ color: 'black' }} /> : null}
                             </ListItemIcon>
                             <ListItemText primary={text} />
                         </ListItemButton>
