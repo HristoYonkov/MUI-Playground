@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { Typography } from '@mui/material';
 import MainLayout from '../../components/MainLayout/MainLayout';
 import MainPageToolbar from '../../components/MainPageToolbar/MainPageToolbar';
 import MyModal from '../../components/MyModal/MyModal';
@@ -24,7 +23,10 @@ export default function Users(): React.ReactElement {
                 <NewUserForm handleClose={handleClose}></NewUserForm>
             </MyModal>
             
-            <DataTable />
+            <DataTable
+            >
+                
+            </DataTable>
         </MainLayout>
     );
 }

@@ -107,7 +107,7 @@ export default function MainLayout({ children }: MainLayoutProps): React.ReactEl
                 component='main'
                 sx={{
                     backgroundColor: 'lightgrey',
-                    height: '790px',
+                    minHeight: '790px',
                     flexGrow: 1,
                     p: 3,
                     width: { sm: `calc(100% - ${drawerWidth}px)`, padding: '24px 0 0 0' },
