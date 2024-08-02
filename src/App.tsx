@@ -1,27 +1,39 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-
-import NotFound from './pages/404/NotFound';
-import Home from './pages/Home/Home';
-
-import './App.css';
-import Zones from './pages/Zones/Zones';
-import Users from './pages/Users/Users';
-import Markers from './pages/Markers/Markers';
+import { QueryErrorResetBoundary } from '@tanstack/react-query'
+import { ErrorBoundary } from 'react-error-boundary'
+import { Box, Button } from '@mui/material'
+import { Suspense } from 'react'
+import Router from '@/router/router.tsx'
+import { FullPageLoader } from '@/components/common/FullPageLoader.tsx'
+import CssBaseline from '@mui/material/CssBaseline'
+import '@/assets/index.css'
 
 function App() {
-    return (
-        <div className='Root'>
-            <Router>
-                <Routes>
-                    <Route path='/' element={<Home />} />
-                    <Route path='/zones' element={<Zones />} />
-                    <Route path='/users' element={<Users />} />
-                    <Route path='/markers' element={<Markers />} />
-                    <Route path='*' element={<NotFound />} />
-                </Routes>
-            </Router>
-        </div>
-    );
+  return (
+    <>
+      <CssBaseline />
+
+      <QueryErrorResetBoundary>
+        {({ reset }) => (
+          // TODO Make a better error page
+          <ErrorBoundary
+            fallbackRender={({ error, resetErrorBoundary }) => (
+              <div>
+                There was an error! <Button onClick={() => resetErrorBoundary()}>Try again</Button>
+                <pre style={{ whiteSpace: 'normal' }}>{error.message}</pre>
+              </div>
+            )}
+            onReset={reset}
+          >
+            <Box height="100%">
+              <Suspense fallback={<FullPageLoader />}>
+                <Router />
+              </Suspense>
+            </Box>
+          </ErrorBoundary>
+        )}
+      </QueryErrorResetBoundary>
+    </>
+  )
 }
 
-export default App;
+export default App
