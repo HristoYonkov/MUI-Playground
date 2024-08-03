@@ -81,14 +81,14 @@ export default function UsersTable() {
       email: user.email!,
       role: user.role!,
       rights:
-      user.rights!.length > 0 ? (
+        user.rights!.length > 0 ? (
           <ChipsList
             items={user.rights?.map((right) => right.rightName!) || ([] as string[])}
           />
         ) : (
           <Typography>-</Typography>
         ),
-        dateCreated: user.dateCreated!,
+      dateCreated: user.dateCreated!,
       actions: <VendorTableActionsMenu key={user.id} vendor={user} />
     }))
   }
