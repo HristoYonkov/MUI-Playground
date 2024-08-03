@@ -4,17 +4,37 @@ import { useTranslation } from 'react-i18next'
 import SearchInput from '../SearchInput'
 import { Autocomplete, TextField, Typography } from '@mui/material'
 import { Column } from '@/interfaces/Column.ts'
-import { VendorDto } from '@/services/model'
 import ChipsList from '../ChipsList'
 import VendorTableActionsMenu from '@/components/features/actionsMenu/VendorTableActionsMenu.tsx'
-import useGetVendors from '@/hooks/services/vendors/useGetVendors'
+import useGetUsers from '@/hooks/services/vendors/useGetUsers'
 
 interface Row {
   id: number
   name: string
-  vendorNumber: string
-  markers: React.ReactNode
+  email: string
+  role: string
+  rights: React.ReactNode
+  dateCreated: string
   actions: React.ReactNode
+}
+
+interface UserRightDto {
+  rightId?: number
+  /** @nullable */
+  rightName?: string | null
+}
+
+interface UserDto {
+  id?: number
+  /** @nullable */
+  name?: string | null
+  /** @nullable */
+  email?: string | null
+  /** @nullable */
+  role?: string | null
+  /** @nullable */
+  rights?: UserRightDto[] | null
+  dateCreated?: string | null
 }
 
 export default function UsersTable() {
@@ -22,7 +42,7 @@ export default function UsersTable() {
   const [searchTerm, setSearchTerm] = React.useState('')
   const [page, setPage] = React.useState(0)
   const [rowsPerPage, setRowsPerPage] = React.useState(10)
-  const vendors = useGetVendors()
+  const users = useGetUsers()
 
   const handleSearchChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSearchTerm(event.target.value)
@@ -41,9 +61,11 @@ export default function UsersTable() {
   const options = sortOptions.map((option) => ({ label: option }))
 
   const columnsData: Column<Row>[] = [
-    { key: 'name', title: translate('vendors.table.columns.name') },
-    { key: 'vendorNumber', title: translate('vendors.table.columns.vendorNumber') },
-    { key: 'markers', title: translate('vendors.table.columns.markers') },
+    { key: 'name', title: translate('Име') },
+    { key: 'email', title: translate('Емайл') },
+    { key: 'role', title: translate('Роля') },
+    { key: 'rights', title: translate('Права') },
+    { key: 'dateCreated', title: translate('Създаден на') },
     {
       key: 'actions',
       title: translate('vendors.table.columns.actions'),
@@ -52,24 +74,26 @@ export default function UsersTable() {
     }
   ]
 
-  function transformDataToRows(vendors: VendorDto[]): Row[] {
-    return vendors.map((vendor: VendorDto) => ({
-      id: vendor.id!,
-      name: vendor.name!,
-      vendorNumber: vendor.systemNumber!,
-      markers:
-        vendor.markers!.length > 0 ? (
+  function transformDataToRows(users: UserDto[]): Row[] {
+    return users.map((user: UserDto) => ({
+      id: user.id!,
+      name: user.name!,
+      email: user.email!,
+      role: user.role!,
+      rights:
+      user.rights!.length > 0 ? (
           <ChipsList
-            items={vendor.markers?.map((marker) => marker.markerName!) || ([] as string[])}
+            items={user.rights?.map((right) => right.rightName!) || ([] as string[])}
           />
         ) : (
           <Typography>-</Typography>
         ),
-      actions: <VendorTableActionsMenu key={vendor.id} vendor={vendor} />
+        dateCreated: user.dateCreated!,
+      actions: <VendorTableActionsMenu key={user.id} vendor={user} />
     }))
   }
 
-  const rowData = transformDataToRows(vendors || [])
+  const rowData = transformDataToRows(users || [])
 
   const filteredRows = rowData.filter((row: Row) => {
     return columnsData.some((column: Column<Row>) => {
