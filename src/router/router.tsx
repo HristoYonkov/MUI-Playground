@@ -11,7 +11,8 @@ import {
   ADMIN_PATH,
   ZONES_CONTENT_PATH,
   MAIN_PATH,
-  DIFFERENCETYPE_PATH
+  DIFFERENCETYPE_PATH,
+  USERS_PATH
 } from '@/router/routerPaths.ts'
 import NewDeliveryProvider from '@/contexts/NewDelivery'
 import { useAuth } from '@/hooks/services/auth/useAuth'
@@ -24,6 +25,7 @@ const Vendors = lazy(() => import('@/pages/admin/Vendors.tsx'))
 const Zones = lazy(() => import('@/pages/admin/Zones.tsx'))
 const Markers = lazy(() => import('@/pages/admin/Markers.tsx'))
 const Deliveries = lazy(() => import('@/pages/main/Deliveries'))
+const Users = lazy(() => import('@/pages/main/Users'))
 const ZonesContent = lazy(() => import('@/pages/main/ZonesContent'))
 const DifferenceType = lazy(() => import('@/pages/admin/DifferenceType'))
 const ErrorPage = lazy(() => import('@/pages/ErrorPage'))
@@ -79,6 +81,10 @@ export default function Router() {
       element: isAuthenticated ? <DefaultLayout /> : <Navigate to={LOGIN_PATH} />,
       children: [
         {
+          path: USERS_PATH,
+          element: <Users />
+        },
+        {
           path: ZONES_CONTENT_PATH,
           element: <ZonesContent />
         },
@@ -89,7 +95,7 @@ export default function Router() {
               <Deliveries />
             </NewDeliveryProvider>
           )
-        }
+        },
       ]
     },
     { path: '*', element: <ErrorPage /> }
