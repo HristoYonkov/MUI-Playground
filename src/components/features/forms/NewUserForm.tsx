@@ -90,7 +90,7 @@ export default function NewUserForm({
         render={({ field }) => (
           <ShowHideFunctionality
             field={field}
-            label={translate('login.labels.password')}
+            label={translate('Потвърди парола')}
             id="repass"
             name="repass"
             required
@@ -103,21 +103,39 @@ export default function NewUserForm({
           />
         )}
       />
+      <Controller
+        name="role"
+        defaultValue={defaultValues?.role || ''}
+        control={control}
+        render={({ field }) => (
+          <TextField
+            {...field}
+            label={translate('Роля')}
+            id="role"
+            name="role"
+            required
+            fullWidth
+            autoFocus
+            error={!!errors.role}
+            helperText={errors.role?.message ? translate(errors.role.message) : ''}
+          />
+        )}
+      />
 
       <Controller
-        name="markers"
-        defaultValue={defaultValues.markerIds?.map(String)}
+        name="rights"
+        defaultValue={defaultValues.rights?.map(String)}
         control={control}
         render={({ field }) => (
           <FormControl fullWidth>
-            <InputLabel id="demo-multiple-markers-label">
-              {translate('vendors.newVendor.labels.markers')}
+            <InputLabel id="demo-multiple-rights-label">
+              {translate('Права')}
             </InputLabel>
             <Select
               {...field}
-              label={translate('vendors.newVendor.labels.markers')}
-              labelId="demo-multiple-markers-label"
-              id="demo-multiple-markers"
+              label={translate('Права')}
+              labelId="demo-multiple-rights-label"
+              id="demo-multiple-rights"
               multiple
               value={field.value || []}
               onChange={(e) => field.onChange(e.target.value)}
