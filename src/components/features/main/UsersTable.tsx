@@ -5,8 +5,8 @@ import SearchInput from '../SearchInput'
 import { Autocomplete, TextField, Typography } from '@mui/material'
 import { Column } from '@/interfaces/Column.ts'
 import ChipsList from '../ChipsList'
-import VendorTableActionsMenu from '@/components/features/actionsMenu/VendorTableActionsMenu.tsx'
 import useGetUsers from '@/hooks/services/vendors/useGetUsers'
+import UsersTableActionsMenu from '../actionsMenu/UsersTableActionsMenu'
 
 interface Row {
   id: number
@@ -89,7 +89,7 @@ export default function UsersTable() {
           <Typography>-</Typography>
         ),
       dateCreated: user.dateCreated!,
-      actions: <VendorTableActionsMenu key={user.id} vendor={user} />
+      actions: <UsersTableActionsMenu key={user.id} user={user} />
     }))
   }
 
