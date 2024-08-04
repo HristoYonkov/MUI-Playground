@@ -37,9 +37,9 @@ export default function Users() {
 
       <FormDialog<NewUserFormData>
         open={openDialog}
-        title={translate('newZone.title')}
-        discardText={translate('newZone.labels.exit')}
-        confirmText={translate('newZone.labels.create')}
+        title={translate('Създаване на нов потребител')}
+        discardText={translate('изход')}
+        confirmText={translate('създай')}
         onCloseDialog={onCloseDialog}
         schema={newUserSchema}
         onSubmit={handleSubmit}
