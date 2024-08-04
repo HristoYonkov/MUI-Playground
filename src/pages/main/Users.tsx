@@ -4,6 +4,8 @@ import { useState } from 'react'
 import FormDialog from '@/components/shared/FormDialog'
 import { SubmitHandler } from 'react-hook-form'
 import UsersTable from '@/components/features/main/UsersTable'
+import { NewUserFormData, newUserSchema } from '@/schemas/newUserSchema'
+import NewUserForm from '@/components/features/forms/NewUserForm'
 
 export default function Users() {
   const { t: translate } = useTranslation()
@@ -17,10 +19,10 @@ export default function Users() {
     setOpenDialog(false)
   }
 
-  // const handleSubmit: SubmitHandler<NewZoneFormData> = (data) => {
-  //   console.log(data)
-  //   onCloseDialog()
-  // }
+  const handleSubmit: SubmitHandler<NewUserFormData> = (data) => {
+    console.log(data)
+    onCloseDialog()
+  }
 
   return (
     <>
@@ -33,16 +35,16 @@ export default function Users() {
         table={<UsersTable />}
       />
 
-      {/* <FormDialog<NewZoneFormData>
+      <FormDialog<NewUserFormData>
         open={openDialog}
         title={translate('newZone.title')}
         discardText={translate('newZone.labels.exit')}
         confirmText={translate('newZone.labels.create')}
         onCloseDialog={onCloseDialog}
-        schema={newZoneSchema}
+        schema={newUserSchema}
         onSubmit={handleSubmit}
-        renderForm={(methods) => <NewZoneContentForm {...methods} />}
-      /> */}
+        renderForm={(methods) => <NewUserForm {...methods} />}
+      />
     </>
   )
 }
