@@ -2,13 +2,12 @@ import React from 'react'
 import WarningActionDialog from '../../shared/WarningActionDialog'
 import { useTranslation } from 'react-i18next'
 import FormDialog from '../../shared/FormDialog'
-import { NewVendorFormData, newVendorSchema } from '@/schemas/newVendorSchema'
 import { SubmitHandler } from 'react-hook-form'
 import TableActionsMenu from './TableActionsMenu'
 import useUpdateVendor from '@/hooks/services/vendors/useUpdateVendor'
 import useDeleteVendor from '@/hooks/services/vendors/useDeleteVendor'
 import NewUserForm from '../forms/NewUserForm'
-import { NewUserFormData } from '@/schemas/newUserSchema'
+import { NewUserFormData, newUserSchema } from '@/schemas/newUserSchema'
 
 interface UserRightDto {
   rightId?: number
@@ -82,7 +81,7 @@ export default function UsersTableActionsMenu({ user }: UsersTableActionsMenuPro
           discardText={translate('vendors.table.actions.edit.labels.exit')}
           confirmText={translate('vendors.table.actions.edit.labels.edit')}
           onCloseDialog={handleClose}
-          schema={newVendorSchema}
+          schema={newUserSchema}
           onSubmit={handleSubmit}
           renderForm={(methods) => (
             <NewUserForm
