@@ -23,6 +23,7 @@ export default function NewUserForm({
   defaultValues = { name: '', email: '', role: '', rights: [] }
 }: NewUserFormProps) {
   const { t: translate } = useTranslation()
+  // TODO: Add functionality to take rights from BE.
   const markers = useGetMarkers()
 
   return (
