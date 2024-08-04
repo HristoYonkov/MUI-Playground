@@ -48,12 +48,12 @@ export default function UsersTableActionsMenu({ user }: UsersTableActionsMenuPro
   }
 
   const handleSubmit: SubmitHandler<NewUserFormData> = (data) => {
-    setVendorNumber(data.vendorNumber)
-    const markerIds = data.markers!.map((marker) => Number(marker))
-    mutationUpdate.mutate({
-      id: user.id!,
-      data: { name: data.vendorName, systemNumber: data.vendorNumber, markerIds: markerIds }
-    })
+    // setVendorNumber(data.vendorNumber)
+    // const markerIds = data.markers!.map((marker) => Number(marker))
+    // mutationUpdate.mutate({
+    //   id: user.id!,
+    //   data: { name: data.vendorName, systemNumber: data.vendorNumber, markerIds: markerIds }
+    // })
   }
 
   const onConfirmClick = () => {
@@ -77,9 +77,9 @@ export default function UsersTableActionsMenu({ user }: UsersTableActionsMenuPro
       {selectedOption === 'edit' && (
         <FormDialog<NewUserFormData>
           open={true}
-          title={translate('vendors.table.actions.edit.title')}
-          discardText={translate('vendors.table.actions.edit.labels.exit')}
-          confirmText={translate('vendors.table.actions.edit.labels.edit')}
+          title={translate('Редактиране на потребител')}
+          discardText={translate('изход')}
+          confirmText={translate('промени')}
           onCloseDialog={handleClose}
           schema={newUserSchema}
           onSubmit={handleSubmit}
@@ -89,7 +89,8 @@ export default function UsersTableActionsMenu({ user }: UsersTableActionsMenuPro
               defaultValues={{
                 name: user.name!,
                 email: user.email!,
-                markerIds: user.rights?.map((right) => right.rightId!) || ([] as number[])
+                role: user.role!,
+                rights: user.rights?.map((right) => right.rightId!) || ([] as number[])
               }}
             />
           )}
