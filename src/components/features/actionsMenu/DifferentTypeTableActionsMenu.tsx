@@ -1,6 +1,5 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import WarningActionDialog from '@/components/shared/WarningActionDialog'
 import { SubmitHandler } from 'react-hook-form'
 import FormDialog from '@/components/shared/FormDialog'
 import { DifferenceTypeDto } from '@/services/model'
@@ -12,6 +11,7 @@ import {
   newDifferenceTypeSchema
 } from '@/schemas/newDifferenceTypeSchema'
 import NewDifferenceTypeForm from '../forms/NewDifferenceTypeForm'
+import ConfirmDialog from '@/components/shared/ConfirmDialog.tsx'
 
 interface DifferentTypeTableActionsMenuProps {
   differenceType: DifferenceTypeDto
@@ -37,7 +37,7 @@ export default function DifferentTypeTableActionsMenu({
     setSelectedOption(option)
   }
 
-  const onConfirmClick = () => {
+  const onConfirmDelete = () => {
     mutationDelete.mutate(differenceType.id!)
     handleClose()
   }
@@ -65,13 +65,13 @@ export default function DifferentTypeTableActionsMenu({
           schema={newDifferenceTypeSchema}
           onSubmit={handleSubmit}
           renderForm={(methods) => (
-            <NewDifferenceTypeForm {...methods} defaultValue={differenceType.name!} />
+            <NewDifferenceTypeForm {...methods} differenceTypeId={differenceType.id!} />
           )}
         />
       )}
 
       {selectedOption === 'delete' && (
-        <WarningActionDialog
+        <ConfirmDialog
           open={true}
           title={translate('differenceType.table.actions.delete.title')}
           content={translate('differenceType.table.actions.delete.message', {
@@ -81,7 +81,7 @@ export default function DifferentTypeTableActionsMenu({
           confirmText={translate('differenceType.table.actions.delete.labels.confirm')}
           onCloseDialog={handleClose}
           onDiscardClick={onDiscardClick}
-          onConfirmClick={onConfirmClick}
+          onConfirmClick={onConfirmDelete}
         />
       )}
     </div>
