@@ -1,30 +1,27 @@
-import IconButton from '@mui/material/IconButton'
-import Menu from '@mui/material/Menu'
-import MenuItem from '@mui/material/MenuItem'
-import MoreHorizIcon from '@mui/icons-material/MoreHoriz'
 import React from 'react'
-import WarningActionDialog from '../../shared/WarningActionDialog'
 import { useTranslation } from 'react-i18next'
+import TableActionsMenu from './TableActionsMenu'
+import DeliveryDetails from '../DeliveryDetails'
+import useDeleteDelivery from '@/hooks/services/deliveries/useDeleteDelivery'
+import ConfirmDialog from '../../shared/ConfirmDialog.tsx'
+import { useApproveDelivery } from '@/hooks/services/deliveries/useApproveDelivery.ts'
+import { DeliveryDto } from '@/services/model/deliveryDto.ts'
 
-export default function DeliveriesTableActionsMenu() {
+interface DeliveriesTableActionsMenuProps {
+  delivery: DeliveryDto
+}
+
+export default function DeliveriesTableActionsMenu({ delivery }: DeliveriesTableActionsMenuProps) {
   const { t: translate } = useTranslation()
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-  const open = Boolean(anchorEl)
   const [selectedOption, setSelectedOption] = React.useState<string | null>(null)
+  const mutationDelete = useDeleteDelivery()
+  const approveDelivery = useApproveDelivery()
 
-  const handleClick = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
   const handleClose = () => {
     setSelectedOption(null)
-    setAnchorEl(null)
   }
 
   const onDiscardClick = () => {
-    handleClose()
-  }
-
-  const onConfirmClick = () => {
     handleClose()
   }
 
@@ -32,49 +29,86 @@ export default function DeliveriesTableActionsMenu() {
     setSelectedOption(option)
   }
 
-  const options = [
-    translate('deliveries.table.actionsMenu.details'),
-    translate('deliveries.table.actionsMenu.approve'),
-    translate('deliveries.table.actionsMenu.delete')
-  ]
+  const onConfirmApprove = () => {
+    approveDelivery.mutate(delivery.id!)
+    handleClose()
+  }
+
+  const onConfirmDelete = () => {
+    mutationDelete.mutate(delivery.id!)
+    handleClose()
+  }
+
+  const options = (() => {
+    const availableOptions = {
+      details: {
+        title: 'deliveries.table.actionsMenu.details',
+        value: 'details'
+      },
+      approve: {
+        title: 'deliveries.table.actionsMenu.approve',
+        value: 'approve'
+      },
+      delete: {
+        title: 'deliveries.table.actionsMenu.delete',
+        value: 'delete'
+      }
+    }
+
+    const options = [availableOptions.details, availableOptions.delete]
+
+    switch (delivery.status) {
+      case 'Finished':
+        options.push(availableOptions.approve)
+        break
+    }
+
+    return options
+  })()
 
   return (
     <div>
-      <IconButton
-        aria-label="more"
-        id="long-button"
-        aria-controls={open ? 'long-menu' : undefined}
-        aria-expanded={open ? 'true' : undefined}
-        aria-haspopup="true"
-        onClick={handleClick}>
-        <MoreHorizIcon />
-      </IconButton>
-      <Menu
-        id="long-menu"
-        MenuListProps={{
-          'aria-labelledby': 'long-button'
-        }}
-        anchorEl={anchorEl}
-        open={open}
-        onClose={handleClose}>
-        {options.map((option) => (
-          <MenuItem key={option} onClick={() => actionHandler(option)}>
-            {option}
-          </MenuItem>
-        ))}
-      </Menu>
+      <TableActionsMenu specificOptionHandler={actionHandler} options={options} />
 
-      {/* TODO: Only admin action */}
-      {selectedOption === translate('deliveries.table.actionsMenu.delete') && (
-        <WarningActionDialog
-          open={open}
-          title={translate('deliveries.table.actions.delete.title')}
-          content={translate('deliveries.table.actions.delete.message')}
-          discardText={translate('deliveries.table.actions.delete.discard')}
-          confirmText={translate('deliveries.table.actions.delete.confirm')}
+      {selectedOption === 'details' && (
+        <ConfirmDialog
+          open={true}
+          maxWidth="md"
+          content={<DeliveryDetails deliveryId={delivery.id!} />}
+          discardText={translate('deliveries.table.actions.details.labels.exit')}
           onCloseDialog={handleClose}
           onDiscardClick={onDiscardClick}
-          onConfirmClick={onConfirmClick}
+        />
+      )}
+
+      {selectedOption === 'approve' && (
+        <ConfirmDialog
+          open={true}
+          title={translate('deliveries.table.actions.approve.title')}
+          content={translate('deliveries.table.actions.approve.message', {
+            deliveryNumber: delivery.id!
+          })}
+          discardText={translate('deliveries.table.actions.approve.labels.discard')}
+          confirmText={translate('deliveries.table.actions.approve.labels.confirm')}
+          onCloseDialog={handleClose}
+          onDiscardClick={onDiscardClick}
+          onConfirmClick={onConfirmApprove}
+        />
+      )}
+
+      {/* TODO: Only admin action */}
+      {selectedOption === 'delete' && (
+        <ConfirmDialog
+          open={true}
+          title={translate('deliveries.table.actions.delete.title')}
+          content={translate('deliveries.table.actions.delete.message', {
+            deliveryNumber: delivery.id!
+          })}
+          discardText={translate('deliveries.table.actions.delete.labels.discard')}
+          confirmText={translate('deliveries.table.actions.delete.labels.confirm')}
+          onCloseDialog={handleClose}
+          onDiscardClick={onDiscardClick}
+          onConfirmClick={onConfirmDelete}
         />
       )}
     </div>
