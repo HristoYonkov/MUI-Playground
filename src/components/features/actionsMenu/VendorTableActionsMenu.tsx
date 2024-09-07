@@ -1,5 +1,4 @@
 import React from 'react'
-import WarningActionDialog from '../../shared/WarningActionDialog'
 import { useTranslation } from 'react-i18next'
 import { VendorDto } from '@/services/model'
 import FormDialog from '../../shared/FormDialog'
@@ -9,6 +8,7 @@ import { SubmitHandler } from 'react-hook-form'
 import TableActionsMenu from './TableActionsMenu'
 import useUpdateVendor from '@/hooks/services/vendors/useUpdateVendor'
 import useDeleteVendor from '@/hooks/services/vendors/useDeleteVendor'
+import ConfirmDialog from '../../shared/ConfirmDialog.tsx'
 
 interface VendorsTableActionsMenuProps {
   vendor: VendorDto
@@ -38,7 +38,7 @@ export default function VendorTableActionsMenu({ vendor }: VendorsTableActionsMe
     })
   }
 
-  const onConfirmClick = () => {
+  const onConfirmDelete = () => {
     mutationDelete.mutate(vendor.id!)
     handleClose()
   }
@@ -65,21 +65,12 @@ export default function VendorTableActionsMenu({ vendor }: VendorsTableActionsMe
           onCloseDialog={handleClose}
           schema={newVendorSchema}
           onSubmit={handleSubmit}
-          renderForm={(methods) => (
-            <NewVendorForm
-              {...methods}
-              defaultValues={{
-                name: vendor.name!,
-                systemNumber: vendor.systemNumber!,
-                markerIds: vendor.markers?.map((marker) => marker.markerId!) || ([] as number[])
-              }}
-            />
-          )}
+          renderForm={(methods) => <NewVendorForm {...methods} vendorId={vendor.id!} />}
         />
       )}
 
       {selectedOption === 'delete' && (
-        <WarningActionDialog
+        <ConfirmDialog
           open={true}
           title={translate('vendors.table.actions.delete.title')}
           content={translate('vendors.table.actions.delete.message', { name: vendor.name })}
@@ -87,7 +78,7 @@ export default function VendorTableActionsMenu({ vendor }: VendorsTableActionsMe
           confirmText={translate('vendors.table.actions.delete.labels.confirm')}
           onCloseDialog={handleClose}
           onDiscardClick={onDiscardClick}
-          onConfirmClick={onConfirmClick}
+          onConfirmClick={onConfirmDelete}
         />
       )}
     </div>
