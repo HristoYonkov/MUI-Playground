@@ -1,43 +1,24 @@
 import React from 'react'
-import WarningActionDialog from '../../shared/WarningActionDialog'
+import ConfirmDialog from '../../shared/ConfirmDialog'
 import { useTranslation } from 'react-i18next'
 import FormDialog from '../../shared/FormDialog'
 import { SubmitHandler } from 'react-hook-form'
 import TableActionsMenu from './TableActionsMenu'
-import useUpdateVendor from '@/hooks/services/vendors/useUpdateVendor'
-import useDeleteVendor from '@/hooks/services/vendors/useDeleteVendor'
 import NewUserForm from '../forms/NewUserForm'
 import { NewUserFormData, newUserSchema } from '@/schemas/newUserSchema'
+import { UserAllDto } from '@/services/model'
+import useDeleteUser from '@/hooks/services/users/useDeleteUser'
 
-interface UserRightDto {
-  rightId?: number
-  /** @nullable */
-  rightName?: string | null
-}
-
-interface UserDto {
-  id?: number
-  /** @nullable */
-  name?: string | null
-  /** @nullable */
-  email?: string | null
-  /** @nullable */
-  role?: string | null
-  /** @nullable */
-  rights?: UserRightDto[] | null
-  dateCreated?: string | null
-}
 
 interface UsersTableActionsMenuProps {
-  user: UserDto
+  user: UserAllDto
 }
 
 export default function UsersTableActionsMenu({ user }: UsersTableActionsMenuProps) {
   const { t: translate } = useTranslation()
   const [selectedOption, setSelectedOption] = React.useState<string | null>(null)
-  const [vendorNumber, setVendorNumber] = React.useState('')
-  const mutationUpdate = useUpdateVendor(user.name!, vendorNumber)
-  const mutationDelete = useDeleteVendor(user.name!)
+  const mutationDelete = useDeleteUser(user.userName!)
+  // TODO: Create update user functionality
 
   const handleClose = () => {
     setSelectedOption(null)
@@ -48,15 +29,10 @@ export default function UsersTableActionsMenu({ user }: UsersTableActionsMenuPro
   }
 
   const handleSubmit: SubmitHandler<NewUserFormData> = (data) => {
-    // setVendorNumber(data.vendorNumber)
-    // const markerIds = data.markers!.map((marker) => Number(marker))
-    // mutationUpdate.mutate({
-    //   id: user.id!,
-    //   data: { name: data.vendorName, systemNumber: data.vendorNumber, markerIds: markerIds }
-    // })
+    // TODO: Create update user functionality
   }
 
-  const onConfirmClick = () => {
+  const onConfirmDelete = () => {
     mutationDelete.mutate(user.id!)
     handleClose()
   }
@@ -87,10 +63,9 @@ export default function UsersTableActionsMenu({ user }: UsersTableActionsMenuPro
             <NewUserForm
               {...methods}
               defaultValues={{
-                name: user.name!,
+                name: user.userName!,
                 email: user.email!,
-                role: user.role!,
-                rights: user.rights?.map((right) => right.rightId!) || ([] as number[])
+                role: user.role!
               }}
             />
           )}
@@ -98,15 +73,15 @@ export default function UsersTableActionsMenu({ user }: UsersTableActionsMenuPro
       )}
 
       {selectedOption === 'delete' && (
-        <WarningActionDialog
+        <ConfirmDialog
           open={true}
           title={translate('vendors.table.actions.delete.title')}
-          content={translate('vendors.table.actions.delete.message', { name: user.name })}
+          content={translate('vendors.table.actions.delete.message', { name: user.userName })}
           discardText={translate('vendors.table.actions.delete.labels.discard')}
           confirmText={translate('vendors.table.actions.delete.labels.confirm')}
           onCloseDialog={handleClose}
           onDiscardClick={onDiscardClick}
-          onConfirmClick={onConfirmClick}
+          onConfirmClick={onConfirmDelete}
         />
       )}
     </div>
