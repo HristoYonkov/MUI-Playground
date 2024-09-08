@@ -1,6 +1,6 @@
 import React from 'react'
 import { useTranslation } from 'react-i18next'
-import WarningActionDialog from '@/components/shared/WarningActionDialog'
+import ConfirmDialog from '@/components/shared/ConfirmDialog.tsx'
 import { ZoneDto } from '@/services/model'
 import { SubmitHandler } from 'react-hook-form'
 import { NewZoneFormData, newZoneSchema } from '@/schemas/newZoneSchema'
@@ -32,12 +32,11 @@ export default function ZonesTableActionsMenu({ zone }: ZonesTableActionsMenuPro
     setSelectedOption(option)
   }
 
-  const onConfirmClick = () => {
+  const onConfirmDelete = () => {
     mutationDelete.mutate(zone.id!)
     handleClose()
   }
 
-  //TODO: да тествам когато БЕ оправят дали се променят всички полета, не само name
   const handleSubmit: SubmitHandler<NewZoneFormData> = (data) => {
     const markerIds = data.markers!.map((marker) => Number(marker))
     mutationUpdate.mutate({
@@ -64,21 +63,12 @@ export default function ZonesTableActionsMenu({ zone }: ZonesTableActionsMenuPro
           onCloseDialog={handleClose}
           schema={newZoneSchema}
           onSubmit={handleSubmit}
-          renderForm={(methods) => (
-            <NewZoneForm
-              {...methods}
-              defaultValues={{
-                name: zone.name!,
-                markersIds: zone.markers?.map((marker) => marker.markerId!) || ([] as number[]),
-                isFinal: zone.isFinal
-              }}
-            />
-          )}
+          renderForm={(methods) => <NewZoneForm {...methods} zoneId={zone.id!} />}
         />
       )}
 
       {selectedOption === 'delete' && (
-        <WarningActionDialog
+        <ConfirmDialog
           open={true}
           title={translate('zones.table.actions.delete.title')}
           content={translate('zones.table.actions.delete.message', { name: zone.name })}
@@ -86,7 +76,7 @@ export default function ZonesTableActionsMenu({ zone }: ZonesTableActionsMenuPro
           confirmText={translate('zones.table.actions.delete.labels.confirm')}
           onCloseDialog={handleClose}
           onDiscardClick={onDiscardClick}
-          onConfirmClick={onConfirmClick}
+          onConfirmClick={onConfirmDelete}
         />
       )}
     </div>
