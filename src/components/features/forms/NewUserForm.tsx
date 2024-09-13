@@ -1,31 +1,30 @@
-import { MarkerDto } from '@/services/model'
+import { RoleDetailsDto } from '@/services/model'
 import { FormControl, InputLabel, ListItemText, MenuItem, Select, TextField } from '@mui/material'
 import { Controller, UseFormReturn } from 'react-hook-form'
 import { useTranslation } from 'react-i18next'
-import useGetMarkers from '@/hooks/services/markers/useGetMarkers'
 import { NewUserFormData } from '@/schemas/newUserSchema'
 import ShowHideFunctionality from '@/components/shared/ShowHideFunctionality'
 import Visibility from '@mui/icons-material/Visibility'
 import VisibilityOff from '@mui/icons-material/VisibilityOff'
+import useGetRoles from '@/hooks/services/roles/useGetRoles'
 
 interface NewUserFormProps extends UseFormReturn<NewUserFormData> {
   defaultValues?: {
     name: string
     email: string
     role: string
-    rights: number[]
   }
 }
 
 export default function NewUserForm({
   control,
   formState: { errors },
-  defaultValues = { name: '', email: '', role: '', rights: [] }
+  defaultValues = { name: '', email: '', role: '' }
 }: NewUserFormProps) {
   const { t: translate } = useTranslation()
-  // TODO: Add functionality to take rights from BE.
-  const markers = useGetMarkers()
-
+  const roles = useGetRoles()
+  console.log(roles);
+  
   return (
     <>
       <Controller
@@ -104,57 +103,24 @@ export default function NewUserForm({
           />
         )}
       />
+
       <Controller
         name="role"
         defaultValue={defaultValues?.role || ''}
         control={control}
         render={({ field }) => (
-          <TextField
-            {...field}
-            label={translate('Роля')}
-            id="role"
-            name="role"
-            required
-            fullWidth
-            autoFocus
-            error={!!errors.role}
-            helperText={errors.role?.message ? translate(errors.role.message) : ''}
-          />
-        )}
-      />
-
-      <Controller
-        name="rights"
-        defaultValue={defaultValues.rights?.map(String)}
-        control={control}
-        render={({ field }) => (
           <FormControl fullWidth>
-            <InputLabel id="demo-multiple-rights-label">
-              {translate('Права')}
-            </InputLabel>
+            <InputLabel id="demo-role-label">{translate('Роля')}</InputLabel>
             <Select
               {...field}
-              label={translate('Права')}
-              labelId="demo-multiple-rights-label"
-              id="demo-multiple-rights"
-              multiple
-              value={field.value || []}
-              onChange={(e) => field.onChange(e.target.value)}
-              renderValue={(selected) => {
-                const selectedMarkerNames = selected
-                  .map((id) => {
-                    const isMarker = markers.find((marker) => marker.id === Number(id))
-                    if (isMarker) {
-                      return isMarker.name
-                    }
-                  })
-                  .join(', ')
-
-                return selectedMarkerNames
-              }}>
-              {markers.map((marker: MarkerDto) => (
-                <MenuItem key={marker.id} value={marker.id?.toString()}>
-                  <ListItemText primary={marker.name} />
+              label={translate('Роля')}
+              labelId="demo-role-label"
+              id="demo-role"
+              value={field.value || ''}
+              onChange={(e) => field.onChange(e.target.value)}>
+              {roles.map((role: RoleDetailsDto) => (
+                <MenuItem key={role.id} value={role.id as string}>
+                  <ListItemText primary={role.name} />
                 </MenuItem>
               ))}
             </Select>
