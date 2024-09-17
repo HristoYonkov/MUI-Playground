@@ -12,7 +12,9 @@ import {
   ZONES_CONTENT_PATH,
   MAIN_PATH,
   DIFFERENCETYPE_PATH,
-  USERS_PATH
+  USERS_PATH,
+  ROLES_PATH,
+  DIFFERENCES_PATH
 } from '@/router/routerPaths.ts'
 import NewDeliveryProvider from '@/contexts/NewDelivery'
 import { useAuth } from '@/hooks/services/auth/useAuth'
@@ -25,16 +27,18 @@ const Vendors = lazy(() => import('@/pages/admin/Vendors.tsx'))
 const Zones = lazy(() => import('@/pages/admin/Zones.tsx'))
 const Markers = lazy(() => import('@/pages/admin/Markers.tsx'))
 const Deliveries = lazy(() => import('@/pages/main/Deliveries'))
-const Users = lazy(() => import('@/pages/main/Users'))
 const ZonesContent = lazy(() => import('@/pages/main/ZonesContent'))
 const DifferenceType = lazy(() => import('@/pages/admin/DifferenceType'))
 const ErrorPage = lazy(() => import('@/pages/ErrorPage'))
+const Users = lazy(() => import('@/pages/admin/Users.tsx'))
+const Roles = lazy(() => import('@/pages/admin/Roles.tsx'))
+const Differences = lazy(() => import('@/pages/main/Differences.tsx'))
 
 export default function Router() {
-  const { user } = useAuth();
+  const { user } = useAuth()
+  // TODO: Add logic for users with roles that are not admins..
 
-  const isAuthenticated = !!user;
-  const isAdmin = user?.role === 'admin';
+  const isAuthenticated = !!user
 
   return useRoutes([
     {
@@ -56,8 +60,16 @@ export default function Router() {
     },
     {
       path: ADMIN_PATH,
-      element: isAdmin ? <DefaultLayout /> : <Navigate to={LOGIN_PATH} />,
+      element: isAuthenticated ? <DefaultLayout /> : <Navigate to={LOGIN_PATH} />,
       children: [
+        {
+          path: USERS_PATH,
+          element: <Users />
+        },
+        {
+          path: ROLES_PATH,
+          element: <Roles />
+        },
         {
           path: VENDORS_PATH,
           element: <Vendors />
@@ -81,12 +93,12 @@ export default function Router() {
       element: isAuthenticated ? <DefaultLayout /> : <Navigate to={LOGIN_PATH} />,
       children: [
         {
-          path: USERS_PATH,
-          element: <Users />
-        },
-        {
           path: ZONES_CONTENT_PATH,
           element: <ZonesContent />
+        },
+        {
+          path: DIFFERENCES_PATH,
+          element: <Differences />
         },
         {
           path: DELIVERIES_PATH,
@@ -95,7 +107,7 @@ export default function Router() {
               <Deliveries />
             </NewDeliveryProvider>
           )
-        },
+        }
       ]
     },
     { path: '*', element: <ErrorPage /> }
