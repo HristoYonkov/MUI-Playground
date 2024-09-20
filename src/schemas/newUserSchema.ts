@@ -14,13 +14,11 @@ export const newUserSchema = yup.object({
     .max(10, 'login.errors.password.max')
     .matches(/[0-9]/, 'login.errors.password.digit')
     .matches(/[!@#$%^&*]/, 'login.errors.password.specialCharacter'),
-  repass: yup.string()
+  repass: yup
+    .string()
     .required('Потвърдете паролата')
     .oneOf([yup.ref('password')], 'Паролите не съвпадат'),
-  role: yup
-    .string()
-    .required('Ролята е задължителна'),
-  rights: yup.array().of(yup.string())
+  role: yup.string().required('Ролята е задължителна')
 })
 
 export interface NewUserFormData extends yup.InferType<typeof newUserSchema> {
@@ -29,5 +27,4 @@ export interface NewUserFormData extends yup.InferType<typeof newUserSchema> {
   password: string
   repass: string
   role: string
-  rights: string[]
 }
