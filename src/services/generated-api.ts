@@ -5,25 +5,53 @@
  * OpenAPI spec version: 1.0
  */
 import type {
+  DeliveryDetailsDto,
   DeliveryDto,
+  DeliveryDtoPageDto,
   DeliveryFormDto,
   DeliveryHistoryDto,
+  DifferenceAdminCommentDto,
+  DifferenceDto,
+  DifferenceDtoPageDto,
+  DifferenceFormDto,
   DifferenceTypeDto,
   DifferenceTypeFormDto,
   EntryDto,
+  EntryDtoPageDto,
   EntryFormDto,
-  EntryRequest,
+  EntrySplitDto,
   GetApiDeliveryAllParams,
-  GetApiDeliveryHistoryIdParams,
+  GetApiDifferenceAllParams,
+  GetApiDifferenceAllWithDeletedParams,
+  GetApiEntryAllParams,
+  GetApiEntryAllWithDeletedParams,
   GetApiMarkerAllWithParamsParams,
+  GetApiRoutePermissionAll200One,
+  GetApiRoutePermissionAll200Three,
+  GetApiRoutePermissionAll200Two,
+  GetApiRoutePermissionAllWithDeleted200One,
+  GetApiRoutePermissionAllWithDeleted200Three,
+  GetApiRoutePermissionAllWithDeleted200Two,
   GetApiVendorAllParams,
   GetApiZoneAllWithParamsParams,
   GetApiZoneEntriesParams,
+  LoginDto,
   MarkerDto,
   MarkerFormDto,
   PaginationParameters,
+  PostApiDeliveryGenerateBarcodePdfParams,
+  RegisterDto,
+  RoleDetailsDto,
+  RoleDto,
+  RoleFormDto,
+  RoleUserAssignDto,
+  RoutePermissionDto,
+  UserAllDto,
+  UserDto,
+  VendorDetailsDto,
   VendorDto,
   VendorFormDto,
+  ZoneDetailsDto,
   ZoneDto,
   ZoneFormDto
 } from './model'
@@ -33,15 +61,56 @@ import type { BodyType } from './api'
 type SecondParameter<T extends (...args: any) => any> = Parameters<T>[1]
 
 export const getWarehouseManagementApi = () => {
+  const postApiAuthLogin = (
+    loginDto: BodyType<LoginDto>,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<void>(
+      {
+        url: `/api/Auth/login`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: loginDto
+      },
+      options
+    )
+  }
+
+  const postApiAuthRegister = (
+    registerDto: BodyType<RegisterDto>,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<string>(
+      {
+        url: `/api/Auth/register`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: registerDto
+      },
+      options
+    )
+  }
+
+  const postApiAuthRefresh = (options?: SecondParameter<typeof customInstance>) => {
+    return customInstance<void>({ url: `/api/Auth/refresh`, method: 'POST' }, options)
+  }
+
+  const postApiAuthLogout = (options?: SecondParameter<typeof customInstance>) => {
+    return customInstance<void>({ url: `/api/Auth/logout`, method: 'POST' }, options)
+  }
+
   const getApiDeliveryId = (id: number, options?: SecondParameter<typeof customInstance>) => {
-    return customInstance<DeliveryDto>({ url: `/api/Delivery/${id}`, method: 'GET' }, options)
+    return customInstance<DeliveryDetailsDto>(
+      { url: `/api/Delivery/${id}`, method: 'GET' },
+      options
+    )
   }
 
   const getApiDeliveryAll = (
     params?: GetApiDeliveryAllParams,
     options?: SecondParameter<typeof customInstance>
   ) => {
-    return customInstance<DeliveryDto[]>(
+    return customInstance<DeliveryDtoPageDto>(
       { url: `/api/Delivery/all`, method: 'GET', params },
       options
     )
@@ -100,12 +169,136 @@ export const getWarehouseManagementApi = () => {
   }
 
   const getApiDeliveryHistoryId = (
-    id: string,
-    params?: GetApiDeliveryHistoryIdParams,
+    id: number,
     options?: SecondParameter<typeof customInstance>
   ) => {
     return customInstance<DeliveryHistoryDto>(
-      { url: `/api/Delivery/history/${id}`, method: 'GET', params },
+      { url: `/api/Delivery/history/${id}`, method: 'GET' },
+      options
+    )
+  }
+
+  const putApiDeliveryApproveId = (
+    id: number,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<void>({ url: `/api/Delivery/Approve/${id}`, method: 'PUT' }, options)
+  }
+
+  const postApiDeliveryGenerateBarcodePdf = (
+    params?: PostApiDeliveryGenerateBarcodePdfParams,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<void>(
+      { url: `/api/Delivery/GenerateBarcodePdf`, method: 'POST', params },
+      options
+    )
+  }
+
+  const getApiDifferenceAll = (
+    params?: GetApiDifferenceAllParams,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<DifferenceDtoPageDto>(
+      { url: `/api/Difference/all`, method: 'GET', params },
+      options
+    )
+  }
+
+  const getApiDifferenceAllWithDeleted = (
+    params?: GetApiDifferenceAllWithDeletedParams,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<DifferenceDtoPageDto>(
+      { url: `/api/Difference/all-with-deleted`, method: 'GET', params },
+      options
+    )
+  }
+
+  const getApiDifferenceId = (id: number, options?: SecondParameter<typeof customInstance>) => {
+    return customInstance<DifferenceDto>({ url: `/api/Difference/${id}`, method: 'GET' }, options)
+  }
+
+  const postApiDifferenceAdd = (
+    differenceFormDto: BodyType<DifferenceFormDto>,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<void>(
+      {
+        url: `/api/Difference/add`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: differenceFormDto
+      },
+      options
+    )
+  }
+
+  const putApiDifferenceEditId = (
+    id: number,
+    differenceFormDto: BodyType<DifferenceFormDto>,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<void>(
+      {
+        url: `/api/Difference/edit/${id}`,
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        data: differenceFormDto
+      },
+      options
+    )
+  }
+
+  const deleteApiDifferenceDeleteId = (
+    id: number,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<void>({ url: `/api/Difference/delete/${id}`, method: 'DELETE' }, options)
+  }
+
+  const patchApiDifferenceRestoreId = (
+    id: number,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<void>({ url: `/api/Difference/restore/${id}`, method: 'PATCH' }, options)
+  }
+
+  const postApiDifferenceStartId = (
+    id: number,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<void>({ url: `/api/Difference/start/${id}`, method: 'POST' }, options)
+  }
+
+  const postApiDifferenceFinishId = (
+    id: number,
+    differenceAdminCommentDto: BodyType<DifferenceAdminCommentDto>,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<void>(
+      {
+        url: `/api/Difference/finish/${id}`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: differenceAdminCommentDto
+      },
+      options
+    )
+  }
+
+  const postApiDifferenceNoDifferencesId = (
+    id: number,
+    differenceAdminCommentDto: BodyType<DifferenceAdminCommentDto>,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<void>(
+      {
+        url: `/api/Difference/noDifferences/${id}`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: differenceAdminCommentDto
+      },
       options
     )
   }
@@ -182,12 +375,12 @@ export const getWarehouseManagementApi = () => {
     )
   }
 
-  const getApiEntry = (
-    entryRequest: BodyType<EntryRequest>,
+  const getApiEntryAll = (
+    params?: GetApiEntryAllParams,
     options?: SecondParameter<typeof customInstance>
   ) => {
-    return customInstance<EntryDto[]>(
-      { url: `/api/Entry`, method: 'GET', headers: { 'Content-Type': 'application/json' } },
+    return customInstance<EntryDtoPageDto>(
+      { url: `/api/Entry/all`, method: 'GET', params },
       options
     )
   }
@@ -197,15 +390,11 @@ export const getWarehouseManagementApi = () => {
   }
 
   const getApiEntryAllWithDeleted = (
-    entryRequest: BodyType<EntryRequest>,
+    params?: GetApiEntryAllWithDeletedParams,
     options?: SecondParameter<typeof customInstance>
   ) => {
     return customInstance<EntryDto[]>(
-      {
-        url: `/api/Entry/all-with-deleted`,
-        method: 'GET',
-        headers: { 'Content-Type': 'application/json' }
-      },
+      { url: `/api/Entry/all-with-deleted`, method: 'GET', params },
       options
     )
   }
@@ -249,12 +438,44 @@ export const getWarehouseManagementApi = () => {
     return customInstance<void>({ url: `/api/Entry/restore/${id}`, method: 'PUT' }, options)
   }
 
-  const getApiEntryStartId = (id: number, options?: SecondParameter<typeof customInstance>) => {
-    return customInstance<void>({ url: `/api/Entry/start/${id}`, method: 'GET' }, options)
+  const putApiEntryStartId = (id: number, options?: SecondParameter<typeof customInstance>) => {
+    return customInstance<void>({ url: `/api/Entry/start/${id}`, method: 'PUT' }, options)
   }
 
-  const getApiEntryFinishId = (id: number, options?: SecondParameter<typeof customInstance>) => {
-    return customInstance<void>({ url: `/api/Entry/finish/${id}`, method: 'GET' }, options)
+  const putApiEntryFinishId = (id: number, options?: SecondParameter<typeof customInstance>) => {
+    return customInstance<void>({ url: `/api/Entry/finish/${id}`, method: 'PUT' }, options)
+  }
+
+  const postApiEntryMoveId = (
+    id: BodyType<number>,
+    postApiEntryMoveIdBody: number,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<void>(
+      {
+        url: `/api/Entry/move/${id}`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: postApiEntryMoveIdBody
+      },
+      options
+    )
+  }
+
+  const postApiEntrySplitId = (
+    id: number,
+    entrySplitDto: BodyType<EntrySplitDto>,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<void>(
+      {
+        url: `/api/Entry/split/${id}`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: entrySplitDto
+      },
+      options
+    )
   }
 
   const getApiMarkerId = (id: number, options?: SecondParameter<typeof customInstance>) => {
@@ -321,8 +542,116 @@ export const getWarehouseManagementApi = () => {
     return customInstance<MarkerDto[]>({ url: `/api/Marker/deleted`, method: 'GET' }, options)
   }
 
+  const postApiRoleAddToRole = (
+    roleUserAssignDto: BodyType<RoleUserAssignDto>,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<void>(
+      {
+        url: `/api/Role/add-to-role`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: roleUserAssignDto
+      },
+      options
+    )
+  }
+
+  const postApiRoleCreate = (
+    roleFormDto: BodyType<RoleFormDto>,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<void>(
+      {
+        url: `/api/Role/create`,
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        data: roleFormDto
+      },
+      options
+    )
+  }
+
+  const putApiRoleEditId = (
+    id: string,
+    roleFormDto: BodyType<RoleFormDto>,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<void>(
+      {
+        url: `/api/Role/edit/${id}`,
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        data: roleFormDto
+      },
+      options
+    )
+  }
+
+  const deleteApiRoleDeleteId = (id: string, options?: SecondParameter<typeof customInstance>) => {
+    return customInstance<void>({ url: `/api/Role/delete/${id}`, method: 'DELETE' }, options)
+  }
+
+  const getApiRoleAll = (options?: SecondParameter<typeof customInstance>) => {
+    return customInstance<RoleDetailsDto[]>({ url: `/api/Role/all`, method: 'GET' }, options)
+  }
+
+  const getApiRoleId = (id: string, options?: SecondParameter<typeof customInstance>) => {
+    return customInstance<RoleDto>({ url: `/api/Role/${id}`, method: 'GET' }, options)
+  }
+
+  const getApiRoutePermissionAll = (options?: SecondParameter<typeof customInstance>) => {
+    return customInstance<
+      | GetApiRoutePermissionAll200One
+      | GetApiRoutePermissionAll200Two
+      | GetApiRoutePermissionAll200Three
+    >({ url: `/api/RoutePermission/all`, method: 'GET' }, options)
+  }
+
+  const getApiRoutePermissionAllWithDeleted = (
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<
+      | GetApiRoutePermissionAllWithDeleted200One
+      | GetApiRoutePermissionAllWithDeleted200Two
+      | GetApiRoutePermissionAllWithDeleted200Three
+    >({ url: `/api/RoutePermission/all-with-deleted`, method: 'GET' }, options)
+  }
+
+  const getApiRoutePermissionId = (
+    id: string,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<RoutePermissionDto>(
+      { url: `/api/RoutePermission/${id}`, method: 'GET' },
+      options
+    )
+  }
+
+  const deleteApiRoutePermissionDeleteId = (
+    id: string,
+    options?: SecondParameter<typeof customInstance>
+  ) => {
+    return customInstance<void>(
+      { url: `/api/RoutePermission/delete/${id}`, method: 'DELETE' },
+      options
+    )
+  }
+
+  const getApiUserAll = (options?: SecondParameter<typeof customInstance>) => {
+    return customInstance<UserAllDto>({ url: `/api/User/all`, method: 'GET' }, options)
+  }
+
+  const getApiUserMe = (options?: SecondParameter<typeof customInstance>) => {
+    return customInstance<UserDto>({ url: `/api/User/me`, method: 'GET' }, options)
+  }
+
+  const deleteApiUserDeleteId = (id: string, options?: SecondParameter<typeof customInstance>) => {
+    return customInstance<void>({ url: `/api/User/delete/${id}`, method: 'DELETE' }, options)
+  }
+
   const getApiVendorId = (id: number, options?: SecondParameter<typeof customInstance>) => {
-    return customInstance<VendorDto>({ url: `/api/Vendor/${id}`, method: 'GET' }, options)
+    return customInstance<VendorDetailsDto>({ url: `/api/Vendor/${id}`, method: 'GET' }, options)
   }
 
   const getApiVendorAll = (
@@ -379,7 +708,7 @@ export const getWarehouseManagementApi = () => {
   }
 
   const getApiZoneId = (id: number, options?: SecondParameter<typeof customInstance>) => {
-    return customInstance<ZoneDto>({ url: `/api/Zone/${id}`, method: 'GET' }, options)
+    return customInstance<ZoneDetailsDto>({ url: `/api/Zone/${id}`, method: 'GET' }, options)
   }
 
   const getApiZoneAll = (options?: SecondParameter<typeof customInstance>) => {
@@ -457,10 +786,17 @@ export const getWarehouseManagementApi = () => {
     params?: GetApiZoneEntriesParams,
     options?: SecondParameter<typeof customInstance>
   ) => {
-    return customInstance<EntryDto[]>({ url: `/api/Zone/entries`, method: 'GET', params }, options)
+    return customInstance<EntryDtoPageDto>(
+      { url: `/api/Zone/entries`, method: 'GET', params },
+      options
+    )
   }
 
   return {
+    postApiAuthLogin,
+    postApiAuthRegister,
+    postApiAuthRefresh,
+    postApiAuthLogout,
     getApiDeliveryId,
     getApiDeliveryAll,
     postApiDeliveryAdd,
@@ -469,6 +805,18 @@ export const getWarehouseManagementApi = () => {
     putApiDeliveryRestoreId,
     getApiDeliveryAllDeleted,
     getApiDeliveryHistoryId,
+    putApiDeliveryApproveId,
+    postApiDeliveryGenerateBarcodePdf,
+    getApiDifferenceAll,
+    getApiDifferenceAllWithDeleted,
+    getApiDifferenceId,
+    postApiDifferenceAdd,
+    putApiDifferenceEditId,
+    deleteApiDifferenceDeleteId,
+    patchApiDifferenceRestoreId,
+    postApiDifferenceStartId,
+    postApiDifferenceFinishId,
+    postApiDifferenceNoDifferencesId,
     getApiDifferenceTypeAll,
     getApiDifferenceTypeAllWithDeleted,
     getApiDifferenceTypeId,
@@ -476,15 +824,17 @@ export const getWarehouseManagementApi = () => {
     putApiDifferenceTypeEditId,
     deleteApiDifferenceTypeDeleteId,
     putApiDifferenceTypeRestoreId,
-    getApiEntry,
+    getApiEntryAll,
     getApiEntryId,
     getApiEntryAllWithDeleted,
     postApiEntryAdd,
     putApiEntryEditId,
     deleteApiEntryDeleteId,
     putApiEntryRestoreId,
-    getApiEntryStartId,
-    getApiEntryFinishId,
+    putApiEntryStartId,
+    putApiEntryFinishId,
+    postApiEntryMoveId,
+    postApiEntrySplitId,
     getApiMarkerId,
     getApiMarkerAll,
     getApiMarkerAllWithParams,
@@ -493,6 +843,19 @@ export const getWarehouseManagementApi = () => {
     deleteApiMarkerDeleteId,
     putApiMarkerRestoreId,
     getApiMarkerDeleted,
+    postApiRoleAddToRole,
+    postApiRoleCreate,
+    putApiRoleEditId,
+    deleteApiRoleDeleteId,
+    getApiRoleAll,
+    getApiRoleId,
+    getApiRoutePermissionAll,
+    getApiRoutePermissionAllWithDeleted,
+    getApiRoutePermissionId,
+    deleteApiRoutePermissionDeleteId,
+    getApiUserAll,
+    getApiUserMe,
+    deleteApiUserDeleteId,
     getApiVendorId,
     getApiVendorAll,
     postApiVendorAdd,
@@ -512,6 +875,18 @@ export const getWarehouseManagementApi = () => {
     getApiZoneEntries
   }
 }
+export type PostApiAuthLoginResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['postApiAuthLogin']>>
+>
+export type PostApiAuthRegisterResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['postApiAuthRegister']>>
+>
+export type PostApiAuthRefreshResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['postApiAuthRefresh']>>
+>
+export type PostApiAuthLogoutResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['postApiAuthLogout']>>
+>
 export type GetApiDeliveryIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiDeliveryId']>>
 >
@@ -535,6 +910,48 @@ export type GetApiDeliveryAllDeletedResult = NonNullable<
 >
 export type GetApiDeliveryHistoryIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiDeliveryHistoryId']>>
+>
+export type PutApiDeliveryApproveIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['putApiDeliveryApproveId']>>
+>
+export type PostApiDeliveryGenerateBarcodePdfResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getWarehouseManagementApi>['postApiDeliveryGenerateBarcodePdf']>
+  >
+>
+export type GetApiDifferenceAllResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiDifferenceAll']>>
+>
+export type GetApiDifferenceAllWithDeletedResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiDifferenceAllWithDeleted']>
+  >
+>
+export type GetApiDifferenceIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiDifferenceId']>>
+>
+export type PostApiDifferenceAddResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['postApiDifferenceAdd']>>
+>
+export type PutApiDifferenceEditIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['putApiDifferenceEditId']>>
+>
+export type DeleteApiDifferenceDeleteIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['deleteApiDifferenceDeleteId']>>
+>
+export type PatchApiDifferenceRestoreIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['patchApiDifferenceRestoreId']>>
+>
+export type PostApiDifferenceStartIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['postApiDifferenceStartId']>>
+>
+export type PostApiDifferenceFinishIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['postApiDifferenceFinishId']>>
+>
+export type PostApiDifferenceNoDifferencesIdResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getWarehouseManagementApi>['postApiDifferenceNoDifferencesId']>
+  >
 >
 export type GetApiDifferenceTypeAllResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiDifferenceTypeAll']>>
@@ -561,8 +978,8 @@ export type DeleteApiDifferenceTypeDeleteIdResult = NonNullable<
 export type PutApiDifferenceTypeRestoreIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['putApiDifferenceTypeRestoreId']>>
 >
-export type GetApiEntryResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiEntry']>>
+export type GetApiEntryAllResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiEntryAll']>>
 >
 export type GetApiEntryIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiEntryId']>>
@@ -582,11 +999,17 @@ export type DeleteApiEntryDeleteIdResult = NonNullable<
 export type PutApiEntryRestoreIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['putApiEntryRestoreId']>>
 >
-export type GetApiEntryStartIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiEntryStartId']>>
+export type PutApiEntryStartIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['putApiEntryStartId']>>
 >
-export type GetApiEntryFinishIdResult = NonNullable<
-  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiEntryFinishId']>>
+export type PutApiEntryFinishIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['putApiEntryFinishId']>>
+>
+export type PostApiEntryMoveIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['postApiEntryMoveId']>>
+>
+export type PostApiEntrySplitIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['postApiEntrySplitId']>>
 >
 export type GetApiMarkerIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiMarkerId']>>
@@ -611,6 +1034,49 @@ export type PutApiMarkerRestoreIdResult = NonNullable<
 >
 export type GetApiMarkerDeletedResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiMarkerDeleted']>>
+>
+export type PostApiRoleAddToRoleResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['postApiRoleAddToRole']>>
+>
+export type PostApiRoleCreateResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['postApiRoleCreate']>>
+>
+export type PutApiRoleEditIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['putApiRoleEditId']>>
+>
+export type DeleteApiRoleDeleteIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['deleteApiRoleDeleteId']>>
+>
+export type GetApiRoleAllResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiRoleAll']>>
+>
+export type GetApiRoleIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiRoleId']>>
+>
+export type GetApiRoutePermissionAllResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiRoutePermissionAll']>>
+>
+export type GetApiRoutePermissionAllWithDeletedResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiRoutePermissionAllWithDeleted']>
+  >
+>
+export type GetApiRoutePermissionIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiRoutePermissionId']>>
+>
+export type DeleteApiRoutePermissionDeleteIdResult = NonNullable<
+  Awaited<
+    ReturnType<ReturnType<typeof getWarehouseManagementApi>['deleteApiRoutePermissionDeleteId']>
+  >
+>
+export type GetApiUserAllResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiUserAll']>>
+>
+export type GetApiUserMeResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiUserMe']>>
+>
+export type DeleteApiUserDeleteIdResult = NonNullable<
+  Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['deleteApiUserDeleteId']>>
 >
 export type GetApiVendorIdResult = NonNullable<
   Awaited<ReturnType<ReturnType<typeof getWarehouseManagementApi>['getApiVendorId']>>
