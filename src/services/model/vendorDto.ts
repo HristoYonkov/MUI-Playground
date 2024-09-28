@@ -4,17 +4,15 @@
  * WarehouseManagement.Api
  * OpenAPI spec version: 1.0
  */
-import type { VendorMarkerDto } from './vendorMarkerDto'
-import type { VendorZoneDto } from './vendorZoneDto'
 
 export interface VendorDto {
+  /** @nullable */
+  createdAt?: string | null
   id?: number
   /** @nullable */
-  markers?: VendorMarkerDto[] | null
+  markers?: string[] | null
   /** @nullable */
   name?: string | null
   /** @nullable */
   systemNumber?: string | null
-  /** @nullable */
-  zones?: VendorZoneDto[] | null
 }
