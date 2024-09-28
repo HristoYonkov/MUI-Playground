@@ -4,19 +4,14 @@
  * WarehouseManagement.Api
  * OpenAPI spec version: 1.0
  */
-import type { ZoneEntryDto } from './zoneEntryDto'
-import type { ZoneMarkerDto } from './zoneMarkerDto'
-import type { ZoneVendorDto } from './zoneVendorDto'
 
 export interface ZoneDto {
   /** @nullable */
-  entries?: ZoneEntryDto[] | null
+  createdAt?: string | null
   id?: number
   isFinal?: boolean
   /** @nullable */
-  markers?: ZoneMarkerDto[] | null
+  markers?: string[] | null
   /** @nullable */
   name?: string | null
-  /** @nullable */
-  vendors?: ZoneVendorDto[] | null
 }
