@@ -21,9 +21,8 @@ export default function NewUserForm({
   formState: { errors },
   defaultValues = { name: '', email: '', role: '' }
 }: NewUserFormProps) {
-  const { t: translate } = useTranslation()
-  const roles = useGetRoles()
-  console.log(roles);
+  const { t: translate } = useTranslation();
+  const roles = useGetRoles();
   
   return (
     <>
